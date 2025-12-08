@@ -1,9 +1,9 @@
-package ecommerce;
+package ecommerce.model;
 
 public class Product {
     private String name;
     private double price;
-    private int stock; // wie viele Stück verfügbar
+    private int stock;
 
     public Product(String name, double price, int stock) {
         this.name = name;
@@ -27,19 +27,24 @@ public class Product {
         return stock > 0;
     }
 
-    public boolean reduceStock(int amount) {
-        if (amount <= 0) return false;
-
-        if (stock >= amount) {
-            stock -= amount;
-            return true;
-        } else {
+    public boolean reduceStock(int quantity) {
+        if (quantity <= 0) {
             return false;
         }
+
+        if (stock >= quantity) {
+            stock -= quantity;
+            return true;
+        }
+
+        return false;
     }
 
     @Override
     public String toString() {
-        return name + " - " + price + " € (Stock: " + stock + ")";
+        return "Product{name='" + name + '\'' +
+                ", price=" + price +
+                ", stock=" + stock +
+                '}';
     }
 }
