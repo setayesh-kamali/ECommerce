@@ -1,6 +1,8 @@
 package ecommerce;
 import ecommerce.model.Customer;
 import ecommerce.model.Product;
+import ecommerce.model.CartItem;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -25,5 +27,11 @@ public class Main {
         System.out.println(laptop);
         System.out.println(mouse);
         System.out.println("Remaining balance: " + customer.getBalance() + " €");
+        System.out.println();
+        System.out.println("CartItem Test:");
+        CartItem item = new CartItem(mouse, 3);
+        System.out.println(item);
+        System.out.println("Total for this item: " + item.getLineTotal() + " €");
+
     }
 }
