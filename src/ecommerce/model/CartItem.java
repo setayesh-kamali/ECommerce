@@ -1,6 +1,7 @@
 package ecommerce.model;
 
 
+
 /**
  * Repräsentiert einen einzelnen Eintrag im Warenkorb.
  * Ein CartItem besteht immer aus einem Produkt und der Menge,
