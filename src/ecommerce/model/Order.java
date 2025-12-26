@@ -5,20 +5,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Repräsentiert eine Bestellung eines Kunden.
- * Eine Bestellung entsteht aus dem Warenkorb beim Checkout.
+ * Repräsentiert eine Bestellung.
+ * Eine Order entsteht beim Checkout aus einem Warenkorb
+ * und enthält eine Liste von OrderItems.
  */
 public class Order {
 
     private List<OrderItem> items = new ArrayList<>();
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     /**
-     * Erstellt eine Bestellung aus einem Warenkorb.
+     * Erstellt eine neue Bestellung aus einem Warenkorb.
      *
      * @param cart der Warenkorb zum Zeitpunkt des Checkouts
      */
     public Order(Cart cart) {
+        this.createdAt = LocalDateTime.now();
+
         for (CartItem item : cart.getItems()) {
             items.add(new OrderItem(
                     item.getProduct(),
@@ -33,18 +36,13 @@ public class Order {
      * @return Gesamtbetrag der Bestellung
      */
     public double getTotal() {
-        double sum = 0.0;
-        for (OrderItem item : items) {
-            sum += item.getTotal();
-        }
-        return sum;
-    }
+        double total = 0;
 
-    /**
-     * Gibt den Erstellungszeitpunkt zurück.
-     */
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+        for (OrderItem item : items) {
+            total += item.getTotal();
+        }
+
+        return total;
     }
 
     /**
@@ -52,5 +50,12 @@ public class Order {
      */
     public List<OrderItem> getItems() {
         return items;
+    }
+
+    /**
+     * Gibt das Erstellungsdatum der Bestellung zurück.
+     */
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }
