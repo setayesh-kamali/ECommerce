@@ -1,5 +1,8 @@
 package ecommerce.model;
 
+import ecommerce.exception.InvalidQuantityException;
+import ecommerce.exception.OutOfStockException;
+
 /**
  * Diese Klasse beschreibt ein Produkt, das im Shop angeboten wird.
  * Ein Produkt hat einen Namen, einen Preis und eine bestimmte Menge im Lager.
@@ -53,22 +56,23 @@ public class Product {
     }
 
     /**
-     * Versucht, eine bestimmte Menge vom Lager abzuziehen.
-     * Klappt nur, wenn genug Stück vorhanden sind.
+     * Reduziert den Lagerbestand um eine bestimmte Menge.
      *
-     * @param quantity Anzahl der Stücke, die verkauft werden sollen
-     * @return true, wenn es funktioniert hat – sonst false
+     * @param quantity gewünschte Menge
+     * @throws InvalidQuantityException wenn quantity <= 0
+     * @throws OutOfStockException      wenn nicht genug Bestand vorhanden ist
      */
-    public boolean reduceStock(int quantity) {
-        if (quantity <= 0) return false;
-
-        if (stock >= quantity) {
-            stock -= quantity;
-            return true;
+    public void reduceStock(int quantity) {
+        if (quantity <= 0) {
+            throw new InvalidQuantityException();
         }
-        return false;
+        if (stock < quantity) {
+            throw new OutOfStockException(
+                    "Nicht genug Bestand für " + name + ". Verfügbar: " + stock + ", benötigt: " + quantity
+            );
+        }
+        stock -= quantity;
     }
-
     /**
      * Gibt das Produkt als Text aus – nützlich zum Debuggen oder Anzeigen im Terminal.
      */

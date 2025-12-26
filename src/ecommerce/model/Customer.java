@@ -1,5 +1,6 @@
 package ecommerce.model;
 
+import ecommerce.exception.InsufficientBalanceException;
 /**
  * Repräsentiert einen Kunden im Shop.
  * Ein Kunde hat ein Guthaben und einen eigenen Warenkorb.
@@ -9,7 +10,6 @@ public class Customer {
     private String name;
     private double balance;
     private Cart cart = new Cart();
-
     /**
      * Erstellt einen neuen Kunden.
      *
@@ -31,38 +31,34 @@ public class Customer {
         cart.addItem(product, quantity);
     }
 
-    /**
-     * Führt den Checkout durch.
-     * Prüft Guthaben, reduziert Lagerbestand und leert den Warenkorb.
+     /**
+     * Zieht Geld vom Guthaben ab.
      *
-     * @return
+     * @param amount Betrag, der bezahlt werden soll
+     * @throws InsufficientBalanceException wenn Guthaben nicht reicht
      */
-    public Order checkout() {
-        double total = cart.getTotal();
-
-        if (total > balance) {
-            System.out.println("Nicht genug Guthaben für den Einkauf.");
-            return null;
+    public void pay(double amount) {
+        if (balance < amount) {
+            throw new InsufficientBalanceException(
+                    "Guthaben reicht nicht. Verfügbar: " + balance + " €, benötigt: " + amount + " €"
+            );
         }
-
-        for (CartItem item : cart.getItems()) {
-            item.getProduct().reduceStock(item.getQuantity());
-        }
-
-        balance -= total;
-        cart.clear();
-
-        System.out.println("Checkout erfolgreich. Neuer Kontostand: " + balance + " €");
-        return null;
+        balance -= amount;
     }
-
+    /**
+     * Gibt den aktuellen Warenkorb des Kunden zurück.
+     *
+     * @return der Warenkorb des Kunden
+     */
+    public Cart getCart() {
+        return cart;
+    }
     /**
      * Gibt den Namen des Kunden zurück.
      */
     public String getName() {
         return name;
     }
-
     /**
      * Gibt das aktuelle Guthaben zurück.
      */
