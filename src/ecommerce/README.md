@@ -31,7 +31,7 @@ using a simple e-commerce example.
 
 1. Open the project in IntelliJ IDEA
 2. Make sure `Main` has a `public static void main(String[] args)` method
-3. Right-click on `Main` → **Run 'Main.main()'**
+3. Right-click on `Main`  **Run 'Main.main()'**
 
 ---
 
